@@ -1,0 +1,14 @@
+#!/bin/bash
+
+case $1 in
+    config)
+	cat <<EOF
+graph_category thermostat
+graph_title Temperature (degrees F)
+graph_vlabel temperature
+temperature.label temperature
+EOF
+	exit 0;;
+esac
+
+curl --silent thermostat/tstat/temp | awk '{gsub(/^{"temp":|}$/, ""); print "temperature.value "$1}'
