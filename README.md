@@ -8,11 +8,11 @@ Termostat](http://radiothermostat.com/). More plugins are planned.
 
 ## Use
 
-   $ ./temperature config
-   graph_category thermostat
-   graph_title Temperature (degrees F)
-   graph_vlabel temperature
-   temperature.label temperature
-   $ ./temperature
-   temperature.value 75.0
+    $ ./temperature config
+    graph_category thermostat
+    graph_title Temperature (degrees F)
+    graph_vlabel temperature
+    temperature.label temperature
 
+    $ ./temperature
+    temperature.value 75.0
