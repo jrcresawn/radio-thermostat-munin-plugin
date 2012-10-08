@@ -15,3 +15,4 @@ Termostat](http://radiothermostat.com/). More plugins are planned.
    temperature.label temperature
    $ ./temperature
    temperature.value 75.0
+
