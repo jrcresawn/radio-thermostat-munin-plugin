@@ -20,7 +20,6 @@ elif len(sys.argv) > 1:
         print "graph_title Temperature (degrees F)"
         print "graph_vlabel temperature"
         print "temperature.label temperature"
-        exit(0)
     else:
         sys.exit('Usage: %s [config]' % sys.argv[0])
 
