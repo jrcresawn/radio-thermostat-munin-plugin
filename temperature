@@ -1,14 +1,36 @@
-#!/bin/bash
+#!/usr/bin/env python
 
-case $1 in
-    config)
-	cat <<EOF
-graph_category thermostat
-graph_title Temperature (degrees F)
-graph_vlabel temperature
-temperature.label temperature
-EOF
-	exit 0;;
-esac
+# temperature - retrieve temperature from thermostat
+#
+# Usage: temperature [config]
+#
+#
+# Copyright (c) 2012, James Ryan Cresawn
+# All rights reserved.
 
-curl --silent thermostat/tstat/temp | awk '{gsub(/^{"temp":|}$/, ""); print "temperature.value "$1}'
+import httplib
+import json
+import sys
+
+if len(sys.argv) > 2:
+    sys.exit('Usage: %s [config]' % sys.argv[0])
+elif len(sys.argv) > 1:
+    if sys.argv[1] == "config":
+        print "graph_category thermostat"
+        print "graph_title Temperature (degrees F)"
+        print "graph_vlabel temperature"
+        print "temperature.label temperature"
+        exit(0)
+    else:
+        sys.exit('Usage: %s [config]' % sys.argv[0])
+
+conn = httplib.HTTPConnection("192.168.10.15")
+conn.request("GET", "/tstat/temp")
+r = conn.getresponse()
+if r.status == 200:
+    data = r.read()
+    conn.close()
+    d = json.loads(data)
+    print "temperature.value", d['temp']
+else:
+    exit(1)
