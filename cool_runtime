@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+
+# cool_runtime - retrieve cool_runtime from thermostat
+#
+# Usage: cool_runtime [config]
+#
+#
+# Copyright (c) 2012, James Ryan Cresawn
+# All rights reserved.
+
+import httplib
+import json
+import sys
+
+if len(sys.argv) > 2:
+    sys.exit('Usage: %s [config]' % sys.argv[0])
+elif len(sys.argv) > 1:
+    if sys.argv[1] == "config":
+        print "graph_category thermostat"
+        print "graph_title Cool Runtime"
+        print "graph_vlabel minutes"
+        print "cool_runtime.label minutes"
+        print "cool_runtime.type COUNTER"
+        print "cool_runtime.min 0"
+        print "cool_runtime.max 1440"
+        sys.exit(0)
+    else:
+        sys.exit('Usage: %s [config]' % sys.argv[0])
+
+conn = httplib.HTTPConnection("192.168.10.15")
+conn.request("GET", "/tstat/datalog")
+r = conn.getresponse()
+if r.status == 200:
+    data = r.read()
+    conn.close()
+    d = json.loads(data)
+    day =  d['today']
+    cool_runtime = day['cool_runtime']
+    cool_hour = cool_runtime['hour']
+    cool_minute = cool_runtime['minute']
+    cool_total_minutes = cool_hour * 60 + cool_minute
+    print "cool_runtime.value", cool_total_minutes
+else:
+    sys.exit(1)
