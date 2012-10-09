@@ -17,9 +17,10 @@ if len(sys.argv) > 2:
 elif len(sys.argv) > 1:
     if sys.argv[1] == "config":
         print "graph_category thermostat"
-        print "graph_title Temperature (degrees F)"
-        print "graph_vlabel temperature"
-        print "temperature.label temperature"
+        print "graph_title Temperature"
+        print "graph_vlabel degrees (F)"
+        print "temperature.label degrees (F)"
+        sys.exit(0)
     else:
         sys.exit('Usage: %s [config]' % sys.argv[0])
 
@@ -32,4 +33,4 @@ if r.status == 200:
     d = json.loads(data)
     print "temperature.value", d['temp']
 else:
-    exit(1)
+    sys.exit(1)
