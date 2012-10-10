@@ -22,7 +22,6 @@ elif len(sys.argv) > 1:
         print "cool_runtime.label minutes"
         print "cool_runtime.type COUNTER"
         print "cool_runtime.min 0"
-        print "cool_runtime.max 1440"
         sys.exit(0)
     else:
         sys.exit('Usage: %s [config]' % sys.argv[0])
@@ -39,6 +38,6 @@ if r.status == 200:
     cool_hour = cool_runtime['hour']
     cool_minute = cool_runtime['minute']
     cool_total_minutes = cool_hour * 60 + cool_minute
-    print "cool_runtime.value", cool_total_minutes
+    print "cool_runtime.value", cool_total_minutes * 300
 else:
     sys.exit(1)
