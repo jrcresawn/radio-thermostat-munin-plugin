@@ -23,7 +23,13 @@ elif len(sys.argv) > 1:
         print "graph_title Temperature"
         print "graph_vlabel degrees (F)"
         print "indoor.label indoor"
-        print "outdoor.label ZIP Code: " + zip
+        print "indoor.colour 00ff00"
+        print "outdoor.label outdoor at ZIP " + zip
+        print "outdoor.colour ffa500"
+        print "coolsetpoint.label cool set point"
+        print "coolsetpoint.colour 0000ff"
+        print "heatsetpoint.label heat set point"
+        print "heatsetpoint.colour ff0000"
         sys.exit(0)
     else:
         sys.exit('Usage: %s [config]' % sys.argv[0])
@@ -40,6 +46,30 @@ def getIndoorTemp():
     else:
         sys.exit(1)
 
+def getCoolSetPoint():
+    conn = httplib.HTTPConnection("192.168.10.15")
+    conn.request("GET", "/tstat/ttemp")
+    r = conn.getresponse()
+    if r.status == 200:
+        data = r.read()
+        conn.close()
+        d = json.loads(data)
+        return d['t_cool']
+    else:
+        sys.exit(1)    
+
+def getSetPoints():
+    conn = httplib.HTTPConnection("192.168.10.15")
+    conn.request("GET", "/tstat/ttemp")
+    r = conn.getresponse()
+    if r.status == 200:
+        data = r.read()
+        conn.close()
+        d = json.loads(data)
+        return d
+    else:
+        sys.exit(1)    
+
 def getOutdoorTemp(zip):
     conn = httplib.HTTPConnection("query.yahooapis.com")
     url_end = "/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20location%3D%22" + zip + "%22&format=json"
@@ -53,5 +83,9 @@ def getOutdoorTemp(zip):
     else:
         sys.exit(1)
 
+setpoints = getSetPoints()
+
 print "indoor.value", getIndoorTemp()
+print "coolsetpoint.value", setpoints['t_cool']
+print "heatsetpoint.value", setpoints['t_heat']
 print "outdoor.value", getOutdoorTemp(zip)
