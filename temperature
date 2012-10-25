@@ -22,10 +22,11 @@ elif len(sys.argv) > 1:
         print "graph_category thermostat"
         print "graph_title Temperature"
         print "graph_vlabel degrees (F)"
-        print "indoor.label indoor"
-        print "indoor.colour 00ff00"
         print "outdoor.label outdoor at ZIP " + zip
         print "outdoor.colour ffa500"
+        print "outdoor.draw AREA"
+        print "indoor.label indoor"
+        print "indoor.colour 00ff00"
         print "coolsetpoint.label cool set point"
         print "coolsetpoint.colour 0000ff"
         print "heatsetpoint.label heat set point"
@@ -85,7 +86,7 @@ def getOutdoorTemp(zip):
 
 setpoints = getSetPoints()
 
+print "outdoor.value", getOutdoorTemp(zip)
 print "indoor.value", getIndoorTemp()
 print "coolsetpoint.value", setpoints['t_cool']
 print "heatsetpoint.value", setpoints['t_heat']
-print "outdoor.value", getOutdoorTemp(zip)

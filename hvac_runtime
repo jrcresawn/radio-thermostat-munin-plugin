@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+# hvac_runtime - report HVAC runtime
+#
+# Runtime: hvac_runtime [config]
+#
+#
+# Copyright (c) 2012, James Ryan Cresawn
+# All rights reserved.
+
+import httplib
+import json
+import sys
+
+if len(sys.argv) > 2:
+    sys.exit('Runtime: %s [config]' % sys.argv[0])
+elif len(sys.argv) > 1:
+    if sys.argv[1] == "config":
+	print "graph_scale yes"
+        print "graph_category thermostat"
+        print "graph_title HVAC runtime"
+        print "graph_vlabel hours"
+        print "cool_runtime.label cool"
+        print "cool_runtime.colour 0000ff"
+        print "cool_runtime.draw AREA"
+        print "heat_runtime.label heat"
+        print "heat_runtime.colour ff0000"
+        print "heat_runtime.draw AREA"
+        sys.exit(0)
+    else:
+        sys.exit('Runtime: %s [config]' % sys.argv[0])
+
+conn = httplib.HTTPConnection("192.168.10.15")
+conn.request("GET", "/tstat/datalog")
+r = conn.getresponse()
+if r.status == 200:
+    data = r.read()
+    conn.close()
+    d = json.loads(data)
+    cool_hour = d['today']['cool_runtime']['hour']
+    cool_minute = d['today']['cool_runtime']['minute']
+    print "cool_runtime.value", cool_hour + cool_minute /  60.0
+    heat_hour = d['today']['heat_runtime']['hour']
+    heat_minute = d['today']['heat_runtime']['minute']
+    print "heat_runtime.value", heat_hour + heat_minute / 60.0
+else:
+    sys.exit(1)
