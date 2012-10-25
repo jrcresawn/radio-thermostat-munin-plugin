@@ -12,7 +12,7 @@ Termostat](http://radiothermostat.com/). Plugins included:
 
 ## Prerequisites
 
-0. Radio Thermostat connected to a WiFi router (mine is a [3M Filtrete 3M-50](http://www.radiothermostat.com/filtrete/products/3M-50/)
+0. Radio Thermostat connected to a WiFi router (mine is a [3M Filtrete 3M-50](http://www.radiothermostat.com/filtrete/products/3M-50/))
 0. web server with Munin and Python installed that is able to connect to thermostat
 
 ## Installation
