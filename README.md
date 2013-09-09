@@ -4,7 +4,7 @@
 
 This is a [Munin](http://munin-monitoring.org/) plugin for monitoring
 thermostats made by [Radio
-Termostat](http://radiothermostat.com/). Plugins included:
+Thermostat](http://radiothermostat.com/). Plugins included:
 
 * hvac_runtime - reports cool and heat runtime in hours per day
 * hvac_usage - reports cool and heat usage in percentage per day
